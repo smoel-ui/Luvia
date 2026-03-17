@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lovia Resort</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#07110d;
+      --bg-2:#0d1814;
+      --card:rgba(255,255,255,0.06);
+      --card-border:rgba(255,255,255,0.10);
+      --gold:#d4af37;
+      --gold-soft:#f3d986;
+      --teal:#46d7c6;
+      --emerald:#1b8f73;
+      --text:#f6f3ea;
+      --muted:rgba(255,255,255,.72);
+      --shadow:0 20px 60px rgba(0,0,0,.45);
+      --glow:0 0 25px rgba(212,175,55,.28);
+      --radius:24px;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:Poppins, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(70,215,198,.14), transparent 28%),
+        radial-gradient(circle at top right, rgba(212,175,55,.12), transparent 32%),
+        linear-gradient(180deg, #06100c 0%, #0b1511 38%, #07110d 100%);
+      color:var(--text);
+      overflow-x:hidden;
+      min-height:100vh;
+      position:relative;
+    }
+
+    body::before,
+    body::after{
+      content:"";
+      position:fixed;
+      inset:auto;
+      width:340px;
+      height:340px;
+      border-radius:50%;
+      filter:blur(90px);
+      pointer-events:none;
+      z-index:-2;
+      opacity:.5;
+    }
+
+    body::before{
+      top:80px;
+      left:-80px;
+      background:rgba(70,215,198,.13);
+    }
+
+    body::after{
+      bottom:40px;
+      right:-60px;
+      background:rgba(212,175,55,.14);
+    }
+
+    .laser{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-1;
+      overflow:hidden;
+    }
+
+    .laser span{
+      position:absolute;
+      display:block;
+      width:1px;
+      height:240px;
+      background:linear-gradient(to bottom, transparent, rgba(70,215,198,.55), transparent);
+      opacity:.25;
+      transform:rotate(35deg);
+      animation:laserFloat 9s linear infinite;
+    }
+
+    .laser span:nth-child(1){ left:8%; top:5%; animation-delay:0s; }
+    .laser span:nth-child(2){ left:30%; top:12%; animation-delay:1.5s; }
+    .laser span:nth-child(3){ left:56%; top:0%; animation-delay:3s; }
+    .laser span:nth-child(4){ left:82%; top:10%; animation-delay:4.5s; }
+    .laser span:nth-child(5){ left:68%; top:55%; animation-delay:2s; }
+
+    @keyframes laserFloat{
+      0%{ transform:translateY(-30px) rotate(35deg); opacity:.08; }
+      50%{ opacity:.35; }
+      100%{ transform:translateY(120px) rotate(35deg); opacity:.08; }
+    }
+
+    nav{
+      position:fixed;
+      top:16px;
+      left:50%;
+      transform:translateX(-50%);
+      width:min(92%, 1280px);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:18px 26px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(8,15,12,.55);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      border-radius:22px;
+      z-index:1000;
+      box-shadow:0 10px 40px rgba(0,0,0,.22);
+    }
+
+    .logo{
+      font-family:Cinzel, serif;
+      font-size:28px;
+      letter-spacing:4px;
+      color:var(--gold);
+      text-shadow:0 0 18px rgba(212,175,55,.3);
+    }
+
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .nav-links a{
+      color:rgba(255,255,255,.9);
+      text-decoration:none;
+      padding:10px 14px;
+      border-radius:999px;
+      transition:.3s ease;
+      font-size:14px;
+    }
+
+    .nav-links a:hover{
+      color:var(--gold-soft);
+      background:rgba(255,255,255,.05);
+      box-shadow:var(--glow);
+    }
+
+    .hero{
+      min-height:100vh;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:130px 6% 80px;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.6)),
+        radial-gradient(circle at center, transparent 20%, rgba(0,0,0,.42) 100%);
+      z-index:1;
+    }
+
+    .hero-background{
+      position:absolute;
+      inset:-3%;
+      background:url("images/lovia1.jpg") center/cover no-repeat;
+      transform:scale(1.08);
+      transition:transform .2s ease-out, filter .3s ease;
+      z-index:0;
+      filter:saturate(1.08) contrast(1.02);
+    }
+
+    .hero-background.fallback{
+      background:
+        linear-gradient(135deg, rgba(70,215,198,.14), rgba(212,175,55,.14)),
+        radial-gradient(circle at 30% 20%, rgba(212,175,55,.18), transparent 28%),
+        radial-gradient(circle at 75% 30%, rgba(70,215,198,.16), transparent 30%),
+        linear-gradient(180deg, #132019 0%, #0a1410 100%);
+    }
+
+    .hero-glow{
+      position:absolute;
+      width:560px;
+      height:560px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(212,175,55,.16), transparent 62%);
+      filter:blur(24px);
+      z-index:1;
+      top:12%;
+      left:50%;
+      transform:translateX(-50%);
+      pointer-events:none;
+    }
+
+    .hero-content{
+      position:relative;
+      z-index:2;
+      max-width:950px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.05);
+      padding:10px 16px;
+      border-radius:999px;
+      color:var(--gold-soft);
+      margin-bottom:24px;
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(14px);
+    }
+
+    .hero h1{
+      font-family:Cinzel, serif;
+      font-size:clamp(48px, 7vw, 94px);
+      letter-spacing:4px;
+      line-height:1.05;
+      color:var(--gold);
+      text-shadow:0 0 25px rgba(212,175,55,.18);
+    }
+
+    .hero p{
+      margin:22px auto 0;
+      font-size:clamp(16px, 2vw, 22px);
+      color:var(--muted);
+      max-width:720px;
+      line-height:1.8;
+    }
+
+    .hero-actions{
+      margin-top:34px;
+      display:flex;
+      justify-content:center;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:16px 28px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:600;
+      transition:.35s ease;
+      position:relative;
+      overflow:hidden;
+      border:1px solid transparent;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg, var(--gold-soft), var(--gold));
+      color:#121212;
+      box-shadow:0 12px 30px rgba(212,175,55,.28);
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-3px) scale(1.02);
+      box-shadow:0 16px 40px rgba(212,175,55,.35);
+    }
+
+    .btn-secondary{
+      color:#fff;
+      background:rgba(255,255,255,.06);
+      border-color:rgba(255,255,255,.12);
+      backdrop-filter:blur(12px);
+    }
+
+    .btn-secondary:hover{
+      transform:translateY(-3px);
+      border-color:rgba(70,215,198,.35);
+      box-shadow:0 10px 30px rgba(70,215,198,.12);
+    }
+
+    .hero-stats{
+      margin-top:46px;
+      display:grid;
+      grid-template-columns:repeat(3, minmax(160px, 1fr));
+      gap:18px;
+    }
+
+    .stat{
+      padding:22px 18px;
+      border-radius:22px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(14px);
+      box-shadow:var(--shadow);
+    }
+
+    .stat h3{
+      font-size:28px;
+      color:var(--gold-soft);
+      margin-bottom:6px;
+    }
+
+    .stat p{
+      margin:0;
+      font-size:14px;
+      color:rgba(255,255,255,.72);
+      line-height:1.5;
+    }
+
+    .divider{
+      position:relative;
+      height:90px;
+      margin-top:-1px;
+      background:linear-gradient(180deg, transparent, rgba(255,255,255,.02));
+      clip-path:polygon(0 0, 100% 35%, 100% 100%, 0 100%);
+    }
+
+    .section{
+      position:relative;
+      padding:110px 8%;
+    }
+
+    .section-title{
+      text-align:center;
+      max-width:820px;
+      margin:0 auto 56px;
+    }
+
+    .section-title h2{
+      font-family:Cinzel, serif;
+      font-size:clamp(34px, 4vw, 52px);
+      color:var(--gold);
+      margin-bottom:14px;
+    }
+
+    .section-title p{
+      color:var(--muted);
+      line-height:1.9;
+      font-size:16px;
+    }
+
+    .features{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:24px;
+    }
+
+    .feature{
+      position:relative;
+      padding:28px 24px;
+      border-radius:24px;
+      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border:1px solid var(--card-border);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(14px);
+      transition:.35s ease;
+      overflow:hidden;
+    }
+
+    .feature::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg, rgba(70,215,198,.08), transparent 45%, rgba(212,175,55,.08));
+      opacity:0;
+      transition:.35s;
+    }
+
+    .feature:hover{
+      transform:translateY(-8px);
+      border-color:rgba(212,175,55,.24);
+      box-shadow:0 24px 60px rgba(0,0,0,.35), 0 0 24px rgba(212,175,55,.10);
+    }
+
+    .feature:hover::before{
+      opacity:1;
+    }
+
+    .feature .icon{
+      font-size:28px;
+      margin-bottom:14px;
+      display:inline-block;
+      filter:drop-shadow(0 0 10px rgba(212,175,55,.12));
+    }
+
+    .feature h3{
+      font-size:18px;
+      margin-bottom:8px;
+      color:#fff;
+    }
+
+    .feature p{
+      color:rgba(255,255,255,.72);
+      line-height:1.7;
+      font-size:14px;
+    }
+
+    .gallery-wrap{
+      position:relative;
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+      gap:18px;
+    }
+
+    .gallery-item{
+      position:relative;
+      border-radius:22px;
+      overflow:hidden;
+      min-height:260px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:var(--shadow);
+      cursor:pointer;
+      isolation:isolate;
+    }
+
+    .gallery-item img{
+      width:100%;
+      height:100%;
+      min-height:260px;
+      object-fit:cover;
+      display:block;
+      transition:transform .5s ease, filter .4s ease;
+    }
+
+    .gallery-item::after{
+      content:"View";
+      position:absolute;
+      inset:auto 18px 18px auto;
+      padding:10px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.14);
+      backdrop-filter:blur(12px);
+      color:#fff;
+      font-size:13px;
+      letter-spacing:.5px;
+      transform:translateY(12px);
+      opacity:0;
+      transition:.35s ease;
+      z-index:2;
+    }
+
+    .gallery-item::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, transparent 30%, rgba(0,0,0,.65) 100%);
+      z-index:1;
+      opacity:.72;
+      transition:.35s ease;
+    }
+
+    .gallery-item:hover img{
+      transform:scale(1.08);
+      filter:saturate(1.08);
+    }
+
+    .gallery-item:hover::after{
+      transform:translateY(0);
+      opacity:1;
+    }
+
+    .gallery-item:hover::before{
+      opacity:.95;
+    }
+
+    .video-section{
+      position:relative;
+      padding:110px 8%;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)),
+        radial-gradient(circle at top left, rgba(70,215,198,.08), transparent 32%);
+    }
+
+    .video-box{
+      max-width:980px;
+      margin:0 auto;
+      padding:18px;
+      border-radius:28px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.1);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(14px);
+    }
+
+    .video-box video,
+    .video-fallback{
+      width:100%;
+      border-radius:22px;
+      display:block;
+      min-height:280px;
+      background:#0d1713;
+    }
+
+    .video-fallback{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:40px;
+      color:rgba(255,255,255,.75);
+      border:1px dashed rgba(255,255,255,.12);
+      line-height:1.8;
+    }
+
+    .reserve{
+      padding:120px 8%;
+    }
+
+    .reserve-card{
+      max-width:1080px;
+      margin:0 auto;
+      border-radius:30px;
+      padding:50px 28px;
+      text-align:center;
+      background:
+        linear-gradient(135deg, rgba(212,175,55,.14), rgba(70,215,198,.12)),
+        rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .reserve-card::before{
+      content:"";
+      position:absolute;
+      width:280px;
+      height:280px;
+      border-radius:50%;
+      top:-80px;
+      right:-70px;
+      background:radial-gradient(circle, rgba(212,175,55,.2), transparent 65%);
+    }
+
+    .reserve-card::after{
+      content:"";
+      position:absolute;
+      width:260px;
+      height:260px;
+      border-radius:50%;
+      bottom:-90px;
+      left:-60px;
+      background:radial-gradient(circle, rgba(70,215,198,.18), transparent 65%);
+    }
+
+    .reserve-card h2{
+      position:relative;
+      z-index:1;
+      font-family:Cinzel, serif;
+      font-size:clamp(34px, 4vw, 54px);
+      color:var(--gold);
+      margin-bottom:14px;
+    }
+
+    .reserve-card p{
+      position:relative;
+      z-index:1;
+      max-width:720px;
+      margin:0 auto 26px;
+      color:var(--muted);
+      line-height:1.9;
+    }
+
+    footer{
+      padding:34px 20px 46px;
+      text-align:center;
+      background:rgba(0,0,0,.28);
+      color:rgba(255,255,255,.66);
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+
+    .whatsapp{
+      position:fixed;
+      bottom:24px;
+      right:24px;
+      z-index:1200;
+      background:linear-gradient(135deg, #25D366, #1ebc59);
+      padding:16px 22px;
+      border-radius:999px;
+      font-size:16px;
+      font-weight:700;
+      text-decoration:none;
+      color:#fff;
+      box-shadow:0 14px 34px rgba(0,0,0,.35);
+      transition:.3s ease;
+    }
+
+    .whatsapp:hover{
+      transform:translateY(-4px) scale(1.03);
+    }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(28px);
+      transition:opacity .8s ease, transform .8s ease;
+    }
+
+    .reveal.show{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.82);
+      backdrop-filter:blur(8px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:30px;
+      z-index:2000;
+    }
+
+    .modal.open{
+      display:flex;
+    }
+
+    .modal img{
+      max-width:min(1100px, 94vw);
+      max-height:86vh;
+      border-radius:22px;
+      box-shadow:0 25px 70px rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    .close-modal{
+      position:absolute;
+      top:24px;
+      right:24px;
+      width:50px;
+      height:50px;
+      border:none;
+      border-radius:50%;
+      cursor:pointer;
+      font-size:24px;
+      background:rgba(255,255,255,.12);
+      color:#fff;
+      backdrop-filter:blur(10px);
+    }
+
+    @media (max-width: 900px){
+      nav{
+        top:10px;
+        padding:16px 18px;
+        border-radius:18px;
+      }
+
+      .nav-links{
+        gap:4px;
+        justify-content:flex-end;
+      }
+
+      .nav-links a{
+        font-size:13px;
+        padding:8px 10px;
+      }
+
+      .hero-stats{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 768px){
+      .hero{
+        padding-top:145px;
+      }
+
+      .section,
+      .video-section,
+      .reserve{
+        padding:86px 6%;
+      }
+
+      .gallery{
+        grid-template-columns:1fr;
+      }
+
+      .gallery-item{
+        min-height:220px;
+      }
+
+      .gallery-item img{
+        min-height:220px;
+      }
+
+      .whatsapp{
+        bottom:18px;
+        right:18px;
+        padding:14px 18px;
+        font-size:15px;
+      }
+    }
+
+    @media (max-width: 560px){
+      nav{
+        flex-direction:column;
+        gap:12px;
+      }
+
+      .logo{
+        font-size:24px;
+      }
+
+      .hero h1{
+        letter-spacing:2px;
+      }
+
+      .hero-actions{
+        flex-direction:column;
+      }
+
+      .btn{
+        width:100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="laser">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <nav>
+    <div class="logo">LOVIA</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#video">Video</a>
+      <a href="#reserve">Reserve</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="hero-background" id="hero-bg"></div>
+    <div class="hero-glow"></div>
+
+    <div class="hero-content reveal">
+      <div class="eyebrow">✦ Luxury Private Resort in Banban</div>
+      <h1>Lovia Resort</h1>
+      <p>
+        A premium private escape crafted for unforgettable gatherings, elegant stays,
+        and elevated resort moments in Banban, Riyadh.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://wa.me/966598915566" target="_blank">Reserve on WhatsApp</a>
+        <a class="btn btn-secondary" href="#gallery">Explore Gallery</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <h3>2000 sqm</h3>
+          <p>Expansive private resort area with comfort and privacy.</p>
+        </div>
+        <div class="stat">
+          <h3>40+ Guests</h3>
+          <p>Perfect for gatherings, occasions, and unforgettable stays.</p>
+        </div>
+        <div class="stat">
+          <h3>10+ Cars</h3>
+          <p>Convenient on-site parking with wide access and easy entry.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="features" class="section">
+    <div class="section-title reveal">
+      <h2>Resort Features</h2>
+      <p>
+        Every detail is designed to create a refined and comfortable experience,
+        blending spacious outdoor living with elegant private amenities.
+      </p>
+    </div>
+
+    <div class="features">
+      <div class="feature reveal">
+        <div class="icon">📐</div>
+        <h3>2000 sqm Private Area</h3>
+        <p>Large private space offering freedom, privacy, and comfort for all guests.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="icon">👥</div>
+        <h3>Capacity 40+ Guests</h3>
+        <p>Suitable for family gatherings, events, and premium private occasions.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="icon">🏠</div>
+        <h3>Two Buildings</h3>
+        <p>Thoughtfully planned resort layout with distinct spaces and better usability.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="icon">🛏</div>
+        <h3>Luxury Bedroom</h3>
+        <p>Elegant and cozy private sleeping space with a premium resort feel.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="icon">🚿</div>
+        <h3>Three Bathrooms</h3>
+        <p>Practical comfort for groups with clean and accessible private facilities.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="icon">🍽</div>
+        <h3>Full Kitchen</h3>
+        <p>Ready for family hosting, preparation, serving, and relaxed stays.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="icon">🚗</div>
+        <h3>10+ Cars Parking</h3>
+        <p>Ample parking space built for convenience and larger guest gatherings.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="icon">🌿</div>
+        <h3>Green Garden</h3>
+        <p>A peaceful outdoor environment adding freshness, beauty, and serenity.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="section">
+    <div class="section-title reveal">
+      <h2>Lovia Experience</h2>
+      <p>
+        Explore moments from the resort and discover the elegant atmosphere,
+        outdoor charm, and refined private experience of Lovia Resort.
+      </p>
+    </div>
+
+    <div class="gallery-wrap">
+      <div class="gallery">
+        <div class="gallery-item reveal"><img src="images/lovia1.jpg" alt="Lovia 1"></div>
+        <div class="gallery-item reveal"><img src="images/lovia2.jpeg" alt="Lovia 2"></div>
+        <div class="gallery-item reveal"><img src="images/lovia3.jpeg" alt="Lovia 3"></div>
+        <div class="gallery-item reveal"><img src="images/lovia4.jpeg" alt="Lovia 4"></div>
+        <div class="gallery-item reveal"><img src="images/lovia5.jpeg" alt="Lovia 5"></div>
+        <div class="gallery-item reveal"><img src="images/lovia6.jpeg" alt="Lovia 6"></div>
+        <div class="gallery-item reveal"><img src="images/lovia7.jpeg" alt="Lovia 7"></div>
+        <div class="gallery-item reveal"><img src="images/lovia8.jpeg" alt="Lovia 8"></div>
+        <div class="gallery-item reveal"><img src="images/lovia9.jpg" alt="Lovia 9"></div>
+        <div class="gallery-item reveal"><img src="images/lovia10.jpg" alt="Lovia 10"></div>
+        <div class="gallery-item reveal"><img src="images/lovia11.jpg" alt="Lovia 11"></div>
+        <div class="gallery-item reveal"><img src="images/lovia12.jpg" alt="Lovia 12"></div>
+        <div class="gallery-item reveal"><img src="images/lovia13.jpg" alt="Lovia 13"></div>
+        <div class="gallery-item reveal"><img src="images/lovia14.jpg" alt="Lovia 14"></div>
+        <div class="gallery-item reveal"><img src="images/lovia15.jpg" alt="Lovia 15"></div>
+ <div class="gallery-item reveal"><img src="images/lovia16.jpeg" alt="Lovia 15"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="video" class="video-section">
+    <div class="section-title reveal">
+      <h2>Resort Video</h2>
+      <p>Show the full atmosphere of Lovia Resort with a short cinematic video preview.</p>
+    </div>
+
+    <div class="video-box reveal">
+      <video id="lovia-video" controls poster="images/lovia1.jpg">
+        <source src="videos/lovia-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <div class="video-fallback" id="video-fallback" style="display:none;">
+        Video file not found.<br>
+        Place your file inside <strong>videos/lovia-video.mp4</strong>
+      </div>
+    </div>
+  </section>
+
+  <section id="reserve" class="reserve">
+    <div class="reserve-card reveal">
+      <h2>Book Lovia Resort</h2>
+      <p>
+        Reserve your private stay and enjoy a luxury resort setting designed for comfort,
+        elegance, and memorable gatherings in Banban, Riyadh.
+      </p>
+      <a class="btn btn-primary" href="https://wa.me/966598915566" target="_blank">Book Now on WhatsApp</a>
+    </div>
+  </section>
+
+  <footer>
+    Lovia Resort • Banban • Riyadh
+  </footer>
+
+  <a class="whatsapp" href="https://wa.me/966598915566" target="_blank">WhatsApp</a>
+
+  <div class="modal" id="imageModal">
+    <button class="close-modal" id="closeModal">&times;</button>
+    <img id="modalImg" src="" alt="Preview">
+  </div>
+
+  <script>
+    // HERO PARALLAX
+    const heroBg = document.getElementById("hero-bg");
+
+    document.addEventListener("mousemove", (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 22;
+      const y = (e.clientY / window.innerHeight - 0.5) * 22;
+      heroBg.style.transform = `translate(${x}px, ${y}px) scale(1.08)`;
+    });
+
+    // HERO IMAGE FALLBACK
+    const testHeroImage = new Image();
+    testHeroImage.src = "images/lovia1.jpg";
+    testHeroImage.onerror = () => {
+      heroBg.classList.add("fallback");
+    };
+
+    // GALLERY IMAGE FALLBACKS + MODAL
+    const galleryImages = document.querySelectorAll(".gallery-item img");
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImg");
+    const closeModal = document.getElementById("closeModal");
+
+    galleryImages.forEach((img) => {
+      img.onerror = function () {
+        this.src =
+          "data:image/svg+xml;utf8," +
+          encodeURIComponent(`
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+              <defs>
+                <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#173129"/>
+                  <stop offset="100%" stop-color="#0d1713"/>
+                </linearGradient>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#g)"/>
+              <text x="50%" y="48%" dominant-baseline="middle" text-anchor="middle"
+                fill="#d4af37" font-size="32" font-family="Arial">
+                Lovia Resort
+              </text>
+              <text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle"
+                fill="rgba(255,255,255,.75)" font-size="20" font-family="Arial">
+                Image not found
+              </text>
+            </svg>
+          `);
+      };
+
+      img.addEventListener("click", () => {
+        modal.classList.add("open");
+        modalImg.src = img.src;
+      });
+    });
+
+    closeModal.addEventListener("click", () => {
+      modal.classList.remove("open");
+    });
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.classList.remove("open");
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") modal.classList.remove("open");
+    });
+
+    // VIDEO FALLBACK
+    const video = document.getElementById("lovia-video");
+    const videoFallback = document.getElementById("video-fallback");
+
+    video.addEventListener("error", () => {
+      video.style.display = "none";
+      videoFallback.style.display = "flex";
+    });
+
+    // SCROLL REVEAL
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
+
+</body>
+</html>
